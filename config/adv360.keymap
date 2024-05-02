@@ -11,9 +11,8 @@
 #define FN 2
 #define NUM 3
 #define SYS 4
-#define UC 5
-#define COLEMAK 6
-#define QWERTY 7
+#define COLEMAK 5
+#define QWERTY 6
 
 #include "keypos_adv360.h"
 #include "combos.dtsi"
@@ -55,7 +54,7 @@
 
 #define KEYS_L LN0 LN1 LN2 LN3 LN4 LN5 LT0 LT1 LT2 LT3 LT4 LT5 LM0 LM1 LM2 LM3 LM4 LM5 LB0 LB1 LB2 LB3 LB4 LB5
 #define KEYS_R RN0 RN1 RN2 RN3 RN4 RN5 RT0 RT1 RT2 RT3 RT4 RT5 RM0 RM1 RM2 RM3 RM4 RM5 RB0 RB1 RB2 RB3 RB4 RB5
-#define THUMBS LH0 LH1 RH0 RH1
+#define THUMBS LH0 LH1 LC0 LL0 LL1 LL2 RH0 RH1 RC0 RL0 RL1 RL2
 
 #define MAKE_HRM(NAME, HOLD, TAP, TRIGGER_POS) \
     ZMK_HOLD_TAP(NAME, \
@@ -112,21 +111,6 @@ ZMK_MOD_MORPH(smart_shft,
 )
 
 /* Custom behaviors */
-
-// Sticky layer + sticky shift (workaround for issue #1421)
-ZMK_STICKY_KEY(sls,
-    release-after-ms = <1000>;
-    bindings = <&uc_shift>;
-    ignore-modifiers;
-)
-ZMK_MACRO_U(uc_shift,
-    wait-ms = <0>;
-    tap-ms = <1>;
-    bindings = <&macro_press &mo UC &kp LSHFT>
-             , <&macro_pause_for_release>
-             , <&macro_release &mo UC &kp LSHFT>;
-)
-
 // reuse basic mod-morph scheme
 #define SIMPLE_MORPH(NAME, MOD, BINDING1, BINDING2) \
     ZMK_MOD_MORPH(NAME, \
@@ -142,8 +126,9 @@ SIMPLE_MORPH(comma_inner_morph, CTL, &kp SEMICOLON, &kp LESS_THAN)
 SIMPLE_MORPH(dot_morph, SFT, &kp DOT, &dot_inner_morph)
 SIMPLE_MORPH(dot_inner_morph, CTL, &kp COLON, &kp GREATER_THAN)
 
-// tap: qmark | shift + tap: excl
-SIMPLE_MORPH(qexcl, SFT, &kp QMARK, &kp EXCL)
+// tap: qmark | shift + tap: excl | ctrl + shift + tap: /
+SIMPLE_MORPH(qexcl, SFT, &kp QMARK, &qexcl_inner_morph)
+SIMPLE_MORPH(qexcl_inner_morph, CTL, &kp EXCL, &kp FSLH)
 
 // tap: left/right parenthesis | shft + tap: less-than/greater-than
 SIMPLE_MORPH(lpar_lt, SFT, &kp LPAR, &kp LT)
@@ -186,8 +171,6 @@ ZMK_TAP_DANCE(copy_cut,
 
 /* Keymap */
 
-// ZMK_CONDITIONAL_LAYER(FN NUM, SYS)  // FN + NUM --> SYSkeymap
-
 // Left for debuging keymaps, just paste bingings
 // / {
 //   keymap {
@@ -206,11 +189,11 @@ ZMK_LAYER(base,
 // ├───────────┼───────────┼───────────┼───────────┼───────────┼───────────┼───────────┤                                                     ├───────────┼───────────┼───────────┼───────────┼───────────┼───────────┼───────────┤
      &kp TAB      &kp Q       &kp W       &kp F        &kp P       &kp G       &none                                                             &none     &kp J       &kp L       &kp U       &kp Y       &kp SEMI    &kp BSLH
 // ├───────────┼───────────┼───────────┼───────────┼───────────┼───────────┼───────────┤ ╭───────────────────────╮ ╭───────────────────────╮ ├───────────┼───────────┼───────────┼───────────┼───────────┼───────────┼───────────┤
-    &kp ESC    &hml LGUI A &hml LALT R &hml LSHFT S &hml LCTRL T   &kp D       &none       &kp LCTRL    &kp LALT      &kp LGUI   &kp RCTRL       &none     &kp H    &hmr RCTRL N &hmr RSHFT E &hmr LALT I &hmr LGUI O   &kp SQT
+    &kp ESC    &hml LGUI A &hml LALT R &hml LSHFT S &hml LCTRL T   &kp D       &none      &smart_shft   &kp LALT      &kp LGUI  &smart_shft      &none     &kp H    &hmr RCTRL N &hmr RSHFT E &hmr LALT I &hmr LGUI O   &kp SQT
 // ├───────────┼───────────┼───────────┼───────────┼───────────┼───────────┼───────────╯ ├───────────┼───────────┤ ├───────────┼───────────┤ ╰───────────┼───────────┼───────────┼───────────┼───────────┼───────────┼───────────┤
-    &kp LSHFT     &kp Z       &kp X       &kp C       &kp V       &kp B                                 &kp HOME     &kp PG_UP                             &kp K       &kp M     &comma_morph &dot_morph   &qexcl      &kp RSHFT
+    &smart_shft   &kp Z       &kp X       &kp C       &kp V       &kp B                                 &kp HOME     &kp PG_UP                             &kp K       &kp M     &comma_morph &dot_morph   &qexcl     &smart_shft
 // ├───────────┼───────────┼───────────┼───────────┼───────────┼───────────╯ ╭───────────┤           ├───────────┤ ├───────────┤           ├───────────╮ ╰───────────┼───────────┼───────────┼───────────┼───────────┼───────────┤
-     &mo FN      &kp GRAVE   &kp CAPS     &kp LEFT   &kp RIGHT                  &bs_del     &mo NUM     &kp END      &kp PG_DN  &lt FN RET &lt_spc NAV 0                &kp UP     &kp DOWN    &kp LBKT    &kp RBKT    &mo FN
+     &mo FN      &kp GRAVE   &kp CAPS     &kp LEFT   &kp RIGHT                  &bs_del     &mo NAV     &kp END      &kp PG_DN  &lt NUM RET &lt_spc NAV 0                &kp UP     &kp DOWN    &kp LBKT    &kp RBKT    &mo FN
 // ╰───────────┴───────────┴───────────┴───────────┴───────────╯             ╰───────────┴───────────┴───────────╯ ╰───────────┴───────────┴───────────╯             ╰───────────┴───────────┴───────────┴───────────┴───────────╯
 )
 
@@ -267,20 +250,6 @@ ZMK_LAYER(sys,
         ___         ___         ___         ___     &macro_ver      ___                                   ___           ___                                   ___         ___         ___         ___         ___         ___
 // ├───────────┼───────────┼───────────┼───────────┼───────────┼───────────╯ ╭───────────┤           ├───────────┤ ├───────────┤           ├───────────╮ ╰───────────┼───────────┼───────────┼───────────┼───────────┼───────────┤
         ___         ___         ___         ___         ___                       ___          ___        ___           ___         ___   &rgb_ug RGB_TOG              &bl BL_INC  &bl BL_DEC     ___         ___         ___
-// ╰───────────┴───────────┴───────────┴───────────┴───────────╯             ╰───────────┴───────────┴───────────╯ ╰───────────┴───────────┴───────────╯             ╰───────────┴───────────┴───────────┴───────────┴───────────╯
-)
-
-ZMK_LAYER(uc,
-// ╭───────────┬───────────┬───────────┬───────────┬───────────┬───────────┬───────────╮                                                     ╭───────────┬───────────┬───────────┬───────────┬───────────┬───────────┬───────────╮
-        ___         ___         ___         ___         ___         ___         ___                                                               ___         ___         ___         ___         ___         ___         ___
-// ├───────────┼───────────┼───────────┼───────────┼───────────┼───────────┼───────────┤                                                     ├───────────┼───────────┼───────────┼───────────┼───────────┼───────────┼───────────┤
-        ___         ___         ___         ___         ___         ___         ___                                                               ___         ___         ___         ___         ___         ___         ___
-// ├───────────┼───────────┼───────────┼───────────┼───────────┼───────────┼───────────┤ ╭───────────────────────╮ ╭───────────────────────╮ ├───────────┼───────────┼───────────┼───────────┼───────────┼───────────┼───────────┤
-        ___         ___         ___         ___         ___         ___         ___            ___        ___           ___         ___           ___         ___         ___         ___         ___         ___         ___
-// ├───────────┼───────────┼───────────┼───────────┼───────────┼───────────┼───────────╯ ├───────────┼───────────┤ ├───────────┼───────────┤ ╰───────────┼───────────┼───────────┼───────────┼───────────┼───────────┼───────────┤
-        ___         ___         ___         ___         ___         ___                                   ___           ___                                   ___         ___         ___         ___         ___         ___
-// ├───────────┼───────────┼───────────┼───────────┼───────────┼───────────╯ ╭───────────┤           ├───────────┤ ├───────────┤           ├───────────╮ ╰───────────┼───────────┼───────────┼───────────┼───────────┼───────────┤
-        ___         ___         ___         ___         ___                       ___          ___        ___           ___         ___        ___                        ___         ___         ___         ___         ___
 // ╰───────────┴───────────┴───────────┴───────────┴───────────╯             ╰───────────┴───────────┴───────────╯ ╰───────────┴───────────┴───────────╯             ╰───────────┴───────────┴───────────┴───────────┴───────────╯
 )
 
