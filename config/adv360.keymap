@@ -36,7 +36,7 @@
 };
 
 &sk {  // sticky-key config
-    release-after-ms = <900>;  // release after 0.6s
+    release-after-ms = <1800>;  // release after 1.2s
     quick-release;             // no double capitalization when rolling keys
 };
 
@@ -69,10 +69,6 @@
 MAKE_HRM(hml, &kp, &kp, KEYS_R THUMBS)  // left-hand HRMs
 MAKE_HRM(hmr, &kp, &kp, KEYS_L THUMBS)  // right-hand HRMs
 
-MAKE_HRM(hml_repeat, &kp, &key_repeat, KEYS_R THUMBS)  // used for HRM-combo
-MAKE_HRM(hmr_lpar_lt, &kp, &lpar_lt, KEYS_L THUMBS)    // "    "   "   "
-MAKE_HRM(hmr_rpar_gt, &kp, &rpar_gt, KEYS_L THUMBS)    // "    "   "   "
-
 /* Nav cluster */
 
 // long-tap action on hold, short-tap action on all interrupts
@@ -102,14 +98,6 @@ ZMK_HOLD_TAP(mt_end, bindings = <&masked_end>, <&kp>; MT_CORE)
 MASK_MODS(masked_home, (MOD_LCTL), &kp HOME)
 MASK_MODS(masked_end,  (MOD_LCTL), &kp END)
 
-/* Caps-word, num-word and smart-mouse */
-
-// tap: sticky-shift | shift + tap/ double-tap: caps-word | hold: shift
-ZMK_MOD_MORPH(smart_shft,
-    bindings = <&sk LSHFT>, <&caps_word>;
-    mods = <(MOD_LSFT)>;
-)
-
 /* Custom behaviors */
 // reuse basic mod-morph scheme
 #define SIMPLE_MORPH(NAME, MOD, BINDING1, BINDING2) \
@@ -126,13 +114,12 @@ SIMPLE_MORPH(comma_inner_morph, CTL, &kp SEMICOLON, &kp LESS_THAN)
 SIMPLE_MORPH(dot_morph, SFT, &kp DOT, &dot_inner_morph)
 SIMPLE_MORPH(dot_inner_morph, CTL, &kp COLON, &kp GREATER_THAN)
 
-// tap: qmark | shift + tap: excl | ctrl + shift + tap: /
-SIMPLE_MORPH(qexcl, SFT, &kp QMARK, &qexcl_inner_morph)
-SIMPLE_MORPH(qexcl_inner_morph, CTL, &kp EXCL, &kp FSLH)
-
 // tap: left/right parenthesis | shft + tap: less-than/greater-than
 SIMPLE_MORPH(lpar_lt, SFT, &kp LPAR, &kp LT)
 SIMPLE_MORPH(rpar_gt, SFT, &kp RPAR, &kp GT)
+
+// tap: qmark | shift + tap: !
+SIMPLE_MORPH(qexcl_morph, SFT, &kp QMARK, &kp EXCL)
 
 // tap: space | shift + tap: dot -> space -> sticky shift | hold: activate layer
 ZMK_HOLD_TAP(lt_spc,
@@ -154,6 +141,7 @@ ZMK_MOD_MORPH(bs_del,
     mods = <(MOD_LSFT|MOD_RSFT)>;
     keep-mods = <MOD_RSFT>;
 )
+
 // tap: copy | double-tap: cut
 ZMK_TAP_DANCE(copy_cut,
     tapping-term-ms = <200>;
@@ -185,13 +173,13 @@ ZMK_TAP_DANCE(copy_cut,
 
 ZMK_LAYER(base,
 // ╭───────────┬───────────┬───────────┬───────────┬───────────┬───────────┬───────────╮                                                     ╭───────────┬───────────┬───────────┬───────────┬───────────┬───────────┬───────────╮
-    &kp EQUAL     &kp N1      &kp N2      &kp N3       &kp N4      &kp N5      &none                                                            &mo SYS    &kp N6      &kp N7      &kp N8      &kp N9      &kp N0      &kp MINUS
+    &kp EQUAL     &kp N1      &kp N2      &kp N3       &kp N4      &kp N5     &kp LPAR                                                          &mo SYS    &kp N6      &kp N7      &kp N8      &kp N9      &kp N0      &kp MINUS
 // ├───────────┼───────────┼───────────┼───────────┼───────────┼───────────┼───────────┤                                                     ├───────────┼───────────┼───────────┼───────────┼───────────┼───────────┼───────────┤
-     &kp TAB      &kp Q       &kp W       &kp F        &kp P       &kp G       &none                                                             &none     &kp J       &kp L       &kp U       &kp Y       &kp SEMI    &kp BSLH
+     &kp TAB      &kp Q       &kp W       &kp F        &kp P       &kp G      &kp RS(RPAR)                                                       &none     &kp J       &kp L       &kp U       &kp Y       &kp SQT     &kp BSLH
 // ├───────────┼───────────┼───────────┼───────────┼───────────┼───────────┼───────────┤ ╭───────────────────────╮ ╭───────────────────────╮ ├───────────┼───────────┼───────────┼───────────┼───────────┼───────────┼───────────┤
-    &kp ESC    &hml LGUI A &hml LALT R &hml LSHFT S &hml LCTRL T   &kp D       &none      &smart_shft   &kp LALT      &kp LGUI  &smart_shft      &none     &kp H    &hmr RCTRL N &hmr RSHFT E &hmr LALT I &hmr LGUI O   &kp SQT
+      &kp ESC  &hml LGUI A &hml LALT R &hml LSHFT S &hml LCTRL T   &kp D       &none         &none     &kp LALT      &kp LGUI      &none      &bootloader  &kp H    &hmr RCTRL N &hmr RSHFT E &hmr RALT I &hmr RGUI O  &kp SQT
 // ├───────────┼───────────┼───────────┼───────────┼───────────┼───────────┼───────────╯ ├───────────┼───────────┤ ├───────────┼───────────┤ ╰───────────┼───────────┼───────────┼───────────┼───────────┼───────────┼───────────┤
-    &smart_shft   &kp Z       &kp X       &kp C       &kp V       &kp B                                 &kp HOME     &kp PG_UP                             &kp K       &kp M     &comma_morph &dot_morph   &qexcl     &smart_shft
+     &kp LSHFT    &kp Z       &kp X       &kp C       &kp V       &kp B                                &kp HOME      &kp PG_UP                             &kp K       &kp M     &comma_morph &dot_morph &qexcl_morph  &kp RSHFT
 // ├───────────┼───────────┼───────────┼───────────┼───────────┼───────────╯ ╭───────────┤           ├───────────┤ ├───────────┤           ├───────────╮ ╰───────────┼───────────┼───────────┼───────────┼───────────┼───────────┤
      &mo FN      &kp GRAVE   &kp CAPS     &kp LEFT   &kp RIGHT                  &bs_del     &mo NAV     &kp END      &kp PG_DN  &lt NUM RET &lt_spc NAV 0                &kp UP     &kp DOWN    &kp LBKT    &kp RBKT    &mo FN
 // ╰───────────┴───────────┴───────────┴───────────┴───────────╯             ╰───────────┴───────────┴───────────╯ ╰───────────┴───────────┴───────────╯             ╰───────────┴───────────┴───────────┴───────────┴───────────╯
@@ -245,7 +233,7 @@ ZMK_LAYER(sys,
 // ├───────────┼───────────┼───────────┼───────────┼───────────┼───────────┼───────────┤                                                     ├───────────┼───────────┼───────────┼───────────┼───────────┼───────────┼───────────┤
         ___         ___         ___         ___         ___         ___     &bootloader                                                       &bootloader     ___         ___         ___         ___         ___         ___
 // ├───────────┼───────────┼───────────┼───────────┼───────────┼───────────┼───────────┤ ╭───────────────────────╮ ╭───────────────────────╮ ├───────────┼───────────┼───────────┼───────────┼───────────┼───────────┼───────────┤
-        ___         ___         ___         ___         ___         ___         ___            ___        ___           ___         ___           ___         ___         ___         ___         ___         ___         ___
+        ___         ___         ___         ___         ___         ___         ___            ___        ___           ___         ___ &rgb_ug RGB_MEFS_CMD 5 ___        ___         ___         ___         ___         ___
 // ├───────────┼───────────┼───────────┼───────────┼───────────┼───────────┼───────────╯ ├───────────┼───────────┤ ├───────────┼───────────┤ ╰───────────┼───────────┼───────────┼───────────┼───────────┼───────────┼───────────┤
         ___         ___         ___         ___     &macro_ver      ___                                   ___           ___                                   ___         ___         ___         ___         ___         ___
 // ├───────────┼───────────┼───────────┼───────────┼───────────┼───────────╯ ╭───────────┤           ├───────────┤ ├───────────┤           ├───────────╮ ╰───────────┼───────────┼───────────┼───────────┼───────────┼───────────┤
