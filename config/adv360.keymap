@@ -173,11 +173,11 @@ ZMK_TAP_DANCE(copy_cut,
 
 ZMK_LAYER(base,
 // ╭───────────┬───────────┬───────────┬───────────┬───────────┬───────────┬───────────╮                                                     ╭───────────┬───────────┬───────────┬───────────┬───────────┬───────────┬───────────╮
-    &kp EQUAL     &kp N1      &kp N2      &kp N3       &kp N4      &kp N5     &kp LPAR                                                          &mo SYS    &kp N6      &kp N7      &kp N8      &kp N9      &kp N0      &kp MINUS
+    &kp EQUAL     &kp N1      &kp N2      &kp N3       &kp N4      &kp N5      &none                                                            &mo SYS    &kp N6      &kp N7      &kp N8      &kp N9      &kp N0      &kp MINUS
 // ├───────────┼───────────┼───────────┼───────────┼───────────┼───────────┼───────────┤                                                     ├───────────┼───────────┼───────────┼───────────┼───────────┼───────────┼───────────┤
-     &kp TAB      &kp Q       &kp W       &kp F        &kp P       &kp G      &kp RS(RPAR)                                                       &none     &kp J       &kp L       &kp U       &kp Y       &kp SQT     &kp BSLH
+     &kp TAB      &kp Q       &kp W       &kp F        &kp P       &kp G       &none                                                             &none     &kp J       &kp L       &kp U       &kp Y       &kp SQT     &kp BSLH
 // ├───────────┼───────────┼───────────┼───────────┼───────────┼───────────┼───────────┤ ╭───────────────────────╮ ╭───────────────────────╮ ├───────────┼───────────┼───────────┼───────────┼───────────┼───────────┼───────────┤
-      &kp ESC  &hml LGUI A &hml LALT R &hml LSHFT S &hml LCTRL T   &kp D       &none         &none     &kp LALT      &kp LGUI      &none      &bootloader  &kp H    &hmr RCTRL N &hmr RSHFT E &hmr RALT I &hmr RGUI O  &kp SQT
+      &kp ESC  &hml LGUI A &hml LALT R &hml LSHFT S &hml LCTRL T   &kp D       &none         &none     &kp LALT      &kp LGUI      &none         &none     &kp H    &hmr RCTRL N &hmr RSHFT E &hmr RALT I &hmr RGUI O  &kp SQT
 // ├───────────┼───────────┼───────────┼───────────┼───────────┼───────────┼───────────╯ ├───────────┼───────────┤ ├───────────┼───────────┤ ╰───────────┼───────────┼───────────┼───────────┼───────────┼───────────┼───────────┤
      &kp LSHFT    &kp Z       &kp X       &kp C       &kp V       &kp B                                &kp HOME      &kp PG_UP                             &kp K       &kp M     &comma_morph &dot_morph &qexcl_morph  &kp RSHFT
 // ├───────────┼───────────┼───────────┼───────────┼───────────┼───────────╯ ╭───────────┤           ├───────────┤ ├───────────┤           ├───────────╮ ╰───────────┼───────────┼───────────┼───────────┼───────────┼───────────┤
