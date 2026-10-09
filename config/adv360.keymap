@@ -121,20 +121,6 @@ SIMPLE_MORPH(rpar_gt, SFT, &kp RPAR, &kp GT)
 // tap: qmark | shift + tap: !
 SIMPLE_MORPH(qexcl_morph, SFT, &kp QMARK, &kp EXCL)
 
-// tap: space | shift + tap: dot -> space -> sticky shift | hold: activate layer
-ZMK_HOLD_TAP(lt_spc,
-    flavor = "balanced";
-    tapping-term-ms = <200>;
-    quick-tap-ms = <QUICK_TAP_MS>;
-    bindings = <&mo>, <&spc_morph>;
-)
-SIMPLE_MORPH(spc_morph, SFT, &kp SPACE, &dot_spc)
-ZMK_MACRO_U(dot_spc,
-    wait-ms = <0>;
-    tap-ms = <5>;
-    bindings = <&kp DOT &kp SPACE &sk LSHFT>;
-)
-
 // tap: backspace | lshft + tap: delete | rshft + tap: shift-delete
 ZMK_MOD_MORPH(bs_del,
     bindings = <&kp BSPC>, <&kp DEL>;
@@ -181,7 +167,7 @@ ZMK_LAYER(base,
 // ├───────────┼───────────┼───────────┼───────────┼───────────┼───────────┼───────────╯ ├───────────┼───────────┤ ├───────────┼───────────┤ ╰───────────┼───────────┼───────────┼───────────┼───────────┼───────────┼───────────┤
      &kp LSHFT    &kp Z       &kp X       &kp C       &kp V       &kp B                                &kp HOME      &kp PG_UP                             &kp K       &kp M     &comma_morph &dot_morph &qexcl_morph  &kp RSHFT
 // ├───────────┼───────────┼───────────┼───────────┼───────────┼───────────╯ ╭───────────┤           ├───────────┤ ├───────────┤           ├───────────╮ ╰───────────┼───────────┼───────────┼───────────┼───────────┼───────────┤
-     &mo FN      &kp GRAVE   &kp CAPS     &kp LEFT   &kp RIGHT                  &bs_del     &mo NAV     &kp END      &kp PG_DN  &lt NUM RET &lt_spc NAV 0                &kp UP     &kp DOWN    &kp LBKT    &kp RBKT    &mo FN
+     &mo FN      &kp GRAVE   &kp CAPS     &kp LEFT   &kp RIGHT                  &bs_del     &mo NAV     &kp END      &kp PG_DN  &lt NUM RET &kp SPACE                   &kp UP     &kp DOWN    &kp LBKT    &kp RBKT    &mo FN
 // ╰───────────┴───────────┴───────────┴───────────┴───────────╯             ╰───────────┴───────────┴───────────╯ ╰───────────┴───────────┴───────────╯             ╰───────────┴───────────┴───────────┴───────────┴───────────╯
 )
 
