@@ -74,3 +74,10 @@ Dated notes from debugging and firmware work. Add an entry each time something n
 - Undo: `LC(Z)` is on the outer left thumb. In a terminal, `Ctrl+Z` suspends the foreground process, so it behaves the same as the old Ctrl+Z reach.
 - Keys in place: outer left thumb `LC(Z)`, outer right thumb `LC(INS)`, nav `PSCRN` (screenshot UI), nav `LS(INS)` (paste test).
 - Status: the screenshot key on nav is not tested yet.
+
+## 2026-10-20 — Build be56b46 flashed to both halves
+
+- Right half `&bootloader` now enters bootloader from the sys layer. It didn't before. The change came with the z3.5-2 base or the reflash, and I can't tell which one fixed it.
+- Nav layer: P = paste (`LS(INS)`), G = copy (`LC(INS)`), D = undo (`LC(Z)`), and the screenshot key (`PSCRN`) in the slot after G. All reported working.
+- Thumbs are back to Ctrl (outer) and Alt/Gui (centre).
+- Still untested: `BT_CLR` clearing a bond, and whether the missing `BT_SEL` number had shifted keys in the old build.
