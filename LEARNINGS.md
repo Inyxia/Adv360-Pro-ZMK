@@ -66,3 +66,11 @@ Dated notes from debugging and firmware work. Add an entry each time something n
 - Right bootloader: the `&bootloader` key still does nothing. The reset button works.
 - `BT_CLR` is still unverified. The profile 4 test showed no visible change because profile 4 had no bond. The next test had to stop because the host shows only one `Adv360 Pro` entry, so I couldn't tell which profile the connection was on.
 - Lesson: before testing a clear, check that the host lists a separate entry for the profile you're testing.
+
+## 2026-10-20 — Copy and paste on Linux
+
+- `Ctrl+Insert` (copy) and `Shift+Insert` (paste) work in GUI apps. Ghostty copy wasn't tested, because auto-copy on highlight is on there.
+- Why these keys: `Ctrl+C` in a terminal sends the interrupt signal, and `Ctrl+Shift+C` isn't a copy key in GUI apps. The Insert pair works in both.
+- Undo: `LC(Z)` is on the outer left thumb. In a terminal, `Ctrl+Z` suspends the foreground process, so it behaves the same as the old Ctrl+Z reach.
+- Keys in place: outer left thumb `LC(Z)`, outer right thumb `LC(INS)`, nav `PSCRN` (screenshot UI), nav `LS(INS)` (paste test).
+- Status: the screenshot key on nav is not tested yet.
