@@ -48,3 +48,12 @@ Dated notes from debugging and firmware work. Add an entry each time something n
 ## Open items
 
 - `personal` stores `bin/build.sh` and `bin/get_version.sh` without the execute bit. Fix it in git.
+
+## 2026-10-19 — Layer switch from qwerty and colemak gets stuck
+
+- Symptom: from qwerty (or colemak), `fn+1` / `fn+3` do nothing. Pressing the top-right key (`&to DEF`, which goes to base) unsticks it. Then `fn+3` works from base, and `fn+1` stops working after that.
+- Finding: holding FN in qwerty types `1`, so the fn layer isn't active there. The same `&mo FN` works from base.
+- Finding: releasing FN fully before pressing the layout key still fails, so this isn't a held-key overlap.
+- Ruled out: `&tog` for the layout keys. It would toggle the current layout off on a second press.
+- Source: `zmk_keymap_layer_to` clears every layer, then activates the target. The refil fork's `adv360-z3.5` uses the same logic.
+- Status: not fixed. Workaround: press the top-right key to return to base before switching layouts.
