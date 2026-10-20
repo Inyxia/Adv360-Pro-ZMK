@@ -36,7 +36,7 @@
 };
 
 &sk {  // sticky-key config
-    release-after-ms = <1800>;  // release after 1.2s
+    release-after-ms = <1800>;  // release after 1.8s
     quick-release;             // no double capitalization when rolling keys
 };
 
