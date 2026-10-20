@@ -57,3 +57,12 @@ Dated notes from debugging and firmware work. Add an entry each time something n
 - Ruled out: `&tog` for the layout keys. It would toggle the current layout off on a second press.
 - Source: `zmk_keymap_layer_to` clears every layer, then activates the target. The refil fork's `adv360-z3.5` uses the same logic.
 - Status: not fixed. Workaround: press the top-right key to return to base before switching layouts.
+
+## 2026-10-20 — Bumped ZMK base to adv360-z3.5-2 on `personal-z35-2`
+
+- Change: `config/west.yml` pins `refil/zmk` at `adv360-z3.5-2` (was `adv360-z3.5`). The keymap is unchanged.
+- Build: both halves compile (`e8e3cab`). Images are backed up in `firmware-backups/adv360-pro-personal-z35-2-e8e3cab/`.
+- Flash: the left half first, then the right. The right's old firmware couldn't talk to the new left, so its red light flashed until the right was reflashed. Once both were on the new build, typing worked on both halves, including over Bluetooth.
+- Right bootloader: the `&bootloader` key still does nothing. The reset button works.
+- `BT_CLR` is still unverified. The profile 4 test showed no visible change because profile 4 had no bond. The next test had to stop because the host shows only one `Adv360 Pro` entry, so I couldn't tell which profile the connection was on.
+- Lesson: before testing a clear, check that the host lists a separate entry for the profile you're testing.
